@@ -1,11 +1,3 @@
-/*
-ROADMAP
-+ добавить флаги по переключению поиска по разным runtime - contanerd, docker
-+ добавить справку
-- добавить сопоставление всех интерфейсов на Хосте, флаг -a / --all
-+ вынести containerd namespace в отдельную переменную (k8s.io)
-*/
-
 package main
 
 import (
@@ -39,12 +31,14 @@ var (
 	containerID string
 	runtime     string
 	namespace   string
+	verbose     bool
 )
 
 func init() {
 	pflag.StringVarP(&containerID, "container.id", "i", "", "Container ID")
 	pflag.StringVarP(&runtime, "runtime", "r", "containerd", "Used runtime")
 	pflag.StringVarP(&namespace, "namespace", "n", "k8s.io", "Used namespace")
+	pflag.BoolVarP(&verbose, "verbose", "v", false, "Verbose output")
 }
 
 // TODO вынести из main() по максимум во внешние функции
@@ -101,7 +95,12 @@ func main() {
 		containerLink,
 	}
 
-	writeTable(container)
+	if verbose {
+		writeTable(container)
+	} else {
+		fmt.Println(containerLink)
+	}
+
 }
 
 // writeTable writes table with data
