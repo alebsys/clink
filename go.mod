@@ -1,4 +1,4 @@
-module github.com/alebsys/containers/containers_link
+module github.com/alebsys/containers/clink
 
 go 1.18
 
